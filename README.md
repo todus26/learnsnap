@@ -156,19 +156,19 @@ GitHub 자동 생성 예시
 
 ### 📋 커밋 메시지 예시
 
-# 코드 작성
+코드 작성
 `git commit -m "(#123) ⭐ feat: 소셜 로그인 기능 구현"`
 `git commit -m "(#123) :star: feat: 소셜 로그인 기능 구현"`
 
-# 새 파일 생성  
+새 파일 생성  
 `git commit -m "(#301) 📝 docs: README 파일 생성"`
 `git commit -m "(#301) :memo: docs: README 파일 생성"`
 
-# 버그 수정
+버그 수정
 `git commit -m "(#301) 🎵 fix: 데이터베이스 연결 이슈 해결"`
 `git commit -m "(#301) :musical_note: fix: 데이터베이스 연결 이슈 해결"`
 
-# 파일 제거
+파일 제거
 `git commit -m "(#301) 🔥 refactor: 미사용 컴포넌트 파일 제거"`
 `git commit -m "(#301) :fire: refactor: 미사용 컴포넌트 파일 제거"`
 
