@@ -15,13 +15,8 @@
 
 ### 프로젝트 정보
 - [서버 실행 방법](#️-서버-실행-방법)
-- [프로젝트 소개](#-프로젝트-소개)
-- [주요 기능](#-주요-기능)
-- [기술 스택](#️-기술-스택)
-- [프로젝트 구조](#-프로젝트-구조)
 
 
----
 
 ## Git 워크플로우 가이드
 
@@ -262,111 +257,4 @@ http://localhost:5173
 Backend/Frontend 모두 동일
 `Ctrl + C`
 
----
-
-## 🎯 프로젝트 소개
-
-**"Show, Code, Learn! 배움은 짧게, 성장은 길게"**
-
-LearnSnap은 듀오링고의 gamification 요소와 매일메일의 콘텐츠 전문성을 결합하여, 개발자들이 언제 어디서나 부담 없이 전문 지식을 습득할 수 있는 환경을 제공합니다.
-
-### 핵심 가치
-- **접근성**: 3-5분 숏폼 영상으로 언제 어디서나 학습 가능
-- **전문성**: 검증된 강사의 고품질 콘텐츠
-- **동기부여**: 게이미피케이션을 통한 지속적인 학습 습관 형성
-- **커뮤니티**: 학습자 간 경쟁과 협력을 통한 성장
-
----
-
-## 🚀 주요 기능
-
-### 학습자 기능
-- **카테고리별 학습 트랙**: 백엔드, 프론트엔드, DevOps, 데이터베이스, AI/ML 등
-- **숏폼 영상 콘텐츠**: 3-5분 내외의 전문 강의 영상, 자막 및 코드 스니펫 제공
-- **게이미피케이션**: 일일 학습 스트릭, 포인트 및 뱃지 시스템, 리더보드
-- **인터랙티브 학습**: 실시간 퀴즈, 코드 챌린지, 학습 진도 트래킹
-- **개인화**: 학습 목표 설정, 맞춤형 콘텐츠 추천, 학습 통계 및 리포트
-
-### 강사 기능
-- **콘텐츠 업로드**: 영상 업로드 및 편집, 썸네일/제목/설명 설정
-- **퀴즈 생성**: 강의 내용 기반 퀴즈 작성, 정답 및 해설 등록
-- **강사 대시보드**: 콘텐츠 조회수 및 완강률, 학습자 피드백 확인
-
-### 관리자 기능
-- **콘텐츠 승인 및 관리**
-- **사용자 관리**
-- **통계 및 분석 대시보드**
-
----
-
-## 🛠️ 기술 스택
-
-### Backend
-- **Framework**: Spring Boot 3.2.x
-- **Language**: Java 17
-- **Database**: PostgreSQL 15+
-- **ORM**: Spring Data JPA (Hibernate)
-- **Build Tool**: Gradle
-- **Authentication**: Spring Security + JWT (예정)
-- **File Storage**: AWS S3 + CloudFront (예정)
-- **Real-time**: WebSocket (STOMP) (예정)
-
-### Frontend
-- **Framework**: React 18+
-- **Build Tool**: Vite
-- **Language**: JavaScript
-- **Styling**: Tailwind CSS + Framer Motion
-- **State Management**: Zustand (예정)
-- **Routing**: React Router v6 (예정)
-- **HTTP Client**: Axios
-- **Video Player**: Video.js 또는 React Player (예정)
-- **Charts**: Recharts 또는 Chart.js (예정)
-- **Form Management**: React Hook Form + Zod (예정)
-
-### Infrastructure
-- **Database**: PostgreSQL
-- **Cache**: Redis (예정)
-- **Version Control**: Git + GitHub
-- **CI/CD**: GitHub Actions (예정)
-- **Hosting**: AWS (예정)
-
----
-
-## 📁 프로젝트 구조
-
-learnsnap/
-├── backend/                  # Spring Boot 백엔드
-│   ├── src/
-│   │   └── main/
-│   │       ├── java/com/learnsnap/
-│   │       │   ├── LearnSnapApplication.java
-│   │       │   ├── controller/       # REST API 컨트롤러
-│   │       │   ├── service/          # 비즈니스 로직
-│   │       │   ├── repository/       # JPA Repository
-│   │       │   ├── domain/           # 엔티티
-│   │       │   ├── dto/              # Request/Response DTO
-│   │       │   ├── config/           # 설정
-│   │       │   ├── security/         # JWT, UserDetails
-│   │       │   ├── util/             # 유틸리티
-│   │       │   └── exception/        # 예외 처리
-│   │       └── resources/
-│   │           ├── application.yml
-│   │           └── application-example.yml
-│   └── build.gradle
-│
-├── frontend/                 # React 프론트엔드
-│   ├── src/
-│   │   ├── components/       # React 컴포넌트
-│   │   ├── pages/            # 페이지 컴포넌트
-│   │   ├── hooks/            # Custom Hooks
-│   │   ├── services/         # API 서비스
-│   │   ├── store/            # 상태 관리
-│   │   ├── utils/            # 유틸리티
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   ├── package.json
-│   └── tailwind.config.js
-│
-├── .gitignore
-└── README.md
 
