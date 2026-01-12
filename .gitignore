@@ -1,0 +1,460 @@
+# ============================================
+# LearnSnap .gitignore
+# ============================================
+
+# ============================================
+# Backend (Spring Boot / Java / Gradle)
+# ============================================
+
+# Gradle
+backend/.gradle/
+backend/build/
+backend/out/
+backend/bin/
+backend/.gradle
+backend/**/build/
+backend/gradle-app.setting
+backend/!gradle-wrapper.jar
+backend/.gradletasknamecache
+
+# Maven (if used)
+backend/target/
+backend/pom.xml.tag
+backend/pom.xml.releaseBackup
+backend/pom.xml.versionsBackup
+backend/pom.xml.next
+backend/release.properties
+backend/dependency-reduced-pom.xml
+backend/buildNumber.properties
+backend/.mvn/timing.properties
+backend/.mvn/wrapper/maven-wrapper.jar
+
+# Java
+backend/*.class
+backend/*.jar
+backend/*.war
+backend/*.ear
+backend/*.nar
+backend/hs_err_pid*
+backend/replay_pid*
+
+# Spring Boot
+backend/spring.log
+backend/application-*.yml
+backend/!application-example.yml
+backend/application-dev.yml
+backend/application-prod.yml
+backend/application-local.yml
+
+# Eclipse
+backend/.settings/
+backend/.classpath
+backend/.project
+backend/.factorypath
+backend/.apt_generated
+backend/.apt_generated_tests
+
+# IntelliJ IDEA
+backend/.idea/
+backend/*.iml
+backend/*.iws
+backend/*.ipr
+backend/out/
+
+# NetBeans
+backend/nbproject/private/
+backend/nbbuild/
+backend/dist/
+backend/nbdist/
+backend/.nb-gradle/
+
+# VS Code
+backend/.vscode/
+backend/.history/
+
+# ============================================
+# Frontend (React / Vite / Node.js)
+# ============================================
+
+# Dependencies
+frontend/node_modules/
+frontend/jspm_packages/
+frontend/bower_components/
+
+# Build outputs
+frontend/dist/
+frontend/build/
+frontend/.vite/
+frontend/.next/
+frontend/out/
+
+# Testing
+frontend/coverage/
+frontend/.nyc_output/
+frontend/*.lcov
+
+# Environment variables
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/.env*.local
+
+# Logs
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/lerna-debug.log*
+frontend/.pnpm-debug.log*
+
+# Editor directories and files
+frontend/.vscode/*
+frontend/!.vscode/extensions.json
+frontend/.idea
+frontend/*.suo
+frontend/*.ntvs*
+frontend/*.njsproj
+frontend/*.sln
+frontend/*.sw?
+
+# Temp files
+frontend/.cache/
+frontend/.temp/
+frontend/.tmp/
+frontend/*.tsbuildinfo
+
+# macOS
+frontend/.DS_Store
+
+# ============================================
+# Database
+# ============================================
+
+# PostgreSQL
+*.sql
+*.dump
+*.backup
+*.pgpass
+.pg_service.conf
+
+# Database files (local development)
+*.db
+*.sqlite
+*.sqlite3
+
+# ============================================
+# Environment & Secrets (중요!)
+# ============================================
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+.env*.local
+
+# Secret keys and credentials
+*.key
+*.pem
+*.p12
+*.jks
+*.keystore
+secrets/
+credentials/
+
+# AWS
+.aws/
+aws-credentials.json
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+# ============================================
+# IDE and Editors
+# ============================================
+
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+.history/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+.idea_modules/
+
+# Eclipse
+.metadata/
+.recommenders/
+.settings/
+.classpath
+.project
+.factorypath
+.apt_generated
+.apt_generated_tests
+
+# NetBeans
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Vim
+*.swp
+*.swo
+*~
+.*.sw[a-z]
+.netrwhist
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# ============================================
+# Operating System Files
+# ============================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.directory
+.Trash-*
+.nfs*
+
+# ============================================
+# Logs
+# ============================================
+
+# Application logs
+logs/
+*.log
+log/
+*.log.*
+*.log.gz
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Test logs
+test-results/
+junit.xml
+coverage/
+
+# ============================================
+# Temporary Files
+# ============================================
+
+# Temp directories
+tmp/
+temp/
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# Cache
+.cache/
+*.cache
+.parcel-cache/
+.npm/
+.eslintcache
+.stylelintcache
+
+# ============================================
+# Documentation (optional - exclude if auto-generated)
+# ============================================
+
+# Uncomment if you don't want to version documentation
+# docs/build/
+# docs/_build/
+# site/
+
+# ============================================
+# Package Manager Lock Files (optional)
+# ============================================
+
+# Uncomment to ignore lock files (not recommended)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# ============================================
+# Docker
+# ============================================
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+*.dockerfile.swp
+
+# ============================================
+# CI/CD
+# ============================================
+
+# GitHub Actions
+.github/workflows/*.secrets
+
+# Jenkins
+.jenkins/
+
+# ============================================
+# Media Files (if too large)
+# ============================================
+
+# Uncomment if you don't want to track media files
+# *.mp4
+# *.avi
+# *.mov
+# *.wmv
+# *.flv
+# *.mkv
+
+# Large images
+# *.psd
+# *.ai
+
+# ============================================
+# Backups
+# ============================================
+
+*.bak
+*.backup
+*.old
+*.orig
+*~
+
+# ============================================
+# Miscellaneous
+# ============================================
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# ============================================
+# Project-Specific
+# ============================================
+
+# Uploaded files (if storing locally for development)
+uploads/
+upload/
+uploaded-files/
+
+# Generated files
+generated/
+
+# Test data
+test-data/
+fixtures/
+
+# ============================================
+# CRITICAL: Never commit these!
+# ============================================
+
+# Database passwords
+application.yml
+application-prod.yml
+application-dev.yml
+
+# API keys
+*api-key*
+*api_key*
+*apikey*
+*secret*
+*password*
+
+# JWT secrets
+jwt.secret
+
+# AWS credentials
+*aws*credentials*
+.aws-credentials
+
+# Private keys
+*.key
+*.pem
+id_rsa
+id_dsa
+
+# ============================================
+# Keep these files (exceptions)
+# ============================================
+
+# Keep example configuration files
+!application-example.yml
+!.env.example
+!config.example.json
+
+# Keep documentation
+!README.md
+!docs/**/*.md
+
+# Keep VS Code recommended extensions
+!.vscode/extensions.json
