@@ -54,9 +54,11 @@
 #### 로컬에서 브랜치 생성
 
 방법 1: git switch 사용 (권장)
+
 `git switch -c 브랜치이름`
 
 방법 2: git checkout 사용
+
 `git checkout -b 브랜치이름`
 
 #### 브랜치 네이밍 규칙
@@ -66,12 +68,17 @@
 #### 브랜치명 예시
 
 GitHub 자동 생성 예시
+
 `123-feat-user-login-feature`
+
 `456-fix-database-connection-error`
 
 수동 생성 예시
+
 `feature/user-login`
+
 `fix/database-connection`
+
 `docs/readme-update`
 
 ### 3. 브랜치 확인
@@ -152,19 +159,27 @@ GitHub 자동 생성 예시
 ### 📋 커밋 메시지 예시
 
 코드 작성
+
 `git commit -m "(#123) ⭐ feat: 소셜 로그인 기능 구현"`
+
 `git commit -m "(#123) :star: feat: 소셜 로그인 기능 구현"`
 
 새 파일 생성  
+
 `git commit -m "(#301) 📝 docs: README 파일 생성"`
+
 `git commit -m "(#301) :memo: docs: README 파일 생성"`
 
 버그 수정
+
 `git commit -m "(#301) 🎵 fix: 데이터베이스 연결 이슈 해결"`
+
 `git commit -m "(#301) :musical_note: fix: 데이터베이스 연결 이슈 해결"`
 
 파일 제거
+
 `git commit -m "(#301) 🔥 refactor: 미사용 컴포넌트 파일 제거"`
+
 `git commit -m "(#301) :fire: refactor: 미사용 컴포넌트 파일 제거"`
 
 ---
@@ -197,19 +212,23 @@ GitHub 자동 생성 예시
 PR이 병합되면 로컬의 main 브랜치를 최신 상태로 업데이트합니다.
 
 main 브랜치로 이동
-`git checkout main`
+
+`git checkout dev`
 
 최신 변경사항 가져오기
-`git pull origin main`
+
+`git pull origin dev`
 
 ### 기존 브랜치 재사용 (필요시)
 이전에 작업하던 브랜치를 계속 사용해야 하는 경우:
 
 원하는 브랜치로 이동
+
 `git checkout 원하는브랜치`
 
 main 브랜치의 최신 변경사항 병합
-`git merge main`
+
+`git merge dev`
 
 ---
 
@@ -229,7 +248,7 @@ main 브랜치의 최신 변경사항 병합
 1. backend 폴더로 이동
 `cd backend`
 
-2. Gradle 실행 (Windows)
+3. Gradle 실행 (Windows)
 `.\gradlew.bat bootRun`
 
 Linux/Mac
