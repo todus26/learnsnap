@@ -59,7 +59,7 @@ public class TestController {
                 .orElse(null);
     }
 
-    // JWT 테스트 엔드포인트 (새로 추가!)
+    // JWT 테스트 엔드포인트 
     @GetMapping("/test/jwt")
     public Map<String, Object> testJwt() {
         String email = "test@example.com";
@@ -78,6 +78,27 @@ public class TestController {
         response.put("token", token);
         response.put("isValid", isValid);
         response.put("extractedEmail", extractedEmail);
+        
+        return response;
+    }
+    // JWT 인증 테스트 엔드포인트 
+    @GetMapping("/test/protected")
+    public Map<String, Object> protectedEndpoint() {
+        // SecurityContext에서 현재 인증된 사용자 정보 가져오기
+        org.springframework.security.core.Authentication authentication = 
+            org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+        
+        Map<String, Object> response = new HashMap<>();
+        
+        if (authentication != null && authentication.isAuthenticated()) {
+            response.put("authenticated", true);
+            response.put("email", authentication.getName());
+            response.put("authorities", authentication.getAuthorities());
+            response.put("message", "인증된 사용자입니다!");
+        } else {
+            response.put("authenticated", false);
+            response.put("message", "인증되지 않은 사용자입니다.");
+        }
         
         return response;
     }
