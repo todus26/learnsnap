@@ -4,6 +4,7 @@ import com.learnsnap.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;  // 추가!
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,6 +20,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity  
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -44,17 +46,15 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/api/hello",
                     "/api/status",
-                    "/api/test/jwt",
-                    "/api/test/users",
-                    "/api/test/user",
-                    "/api/test/user/**",
-                    "/api/auth/**"  // 로그인/회원가입
+                    "/api/test/**",
+                    "/api/auth/**",
+                    "/api/categories",      // GET /api/categories (전체 조회)
+                    "/api/categories/**"    // GET /api/categories/{id} (특정 조회)
                 ).permitAll()
                 
                 // 인증 필요한 경로
                 .requestMatchers(
-                    "/api/test/protected",
-                    "/api/users/**"  
+                    "/api/users/**"
                 ).authenticated()
                 
                 // 나머지는 모두 허용 (개발 단계)
