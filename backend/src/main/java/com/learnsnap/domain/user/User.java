@@ -50,12 +50,12 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    // 비밀번호 변경 메서드 (나중에 사용)
+    // 비밀번호 변경 메서드 
     public void updatePassword(String newPassword) {
         this.password = newPassword;
     }
 
-    // 프로필 업데이트 메서드 (나중에 사용)
+    // 프로필 업데이트 메서드 
     public void updateProfile(String username, String bio, String profileImage) {
         this.username = username;
         this.bio = bio;

@@ -48,17 +48,20 @@ public class SecurityConfig {
                     "/api/test/users",
                     "/api/test/user",
                     "/api/test/user/**",
-                    "/api/auth/**"  // 나중에 로그인/회원가입 API
+                    "/api/auth/**"  // 로그인/회원가입
                 ).permitAll()
                 
-                // /api/test/protected는 인증 필요
-                .requestMatchers("/api/test/protected").authenticated()
+                // 인증 필요한 경로
+                .requestMatchers(
+                    "/api/test/protected",
+                    "/api/users/**"  
+                ).authenticated()
                 
                 // 나머지는 모두 허용 (개발 단계)
                 .anyRequest().permitAll()
             )
             
-            // JWT 필터 추가
+            // JWT 필터 
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
