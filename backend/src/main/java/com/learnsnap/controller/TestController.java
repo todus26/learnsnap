@@ -161,4 +161,18 @@ public class TestController {
         
         return ResponseEntity.ok(savedCategories);
     }
+
+    // 관리자 사용자 생성
+    @PostMapping("/admin")
+    public ResponseEntity<User> createAdminUser() {
+        User admin = User.builder()
+                .email("admin@learnsnap.com")
+                .password(passwordEncoder.encode("admin123"))
+                .username("관리자")
+                .role(Role.ADMIN)
+                .build();
+        
+        User savedAdmin = userRepository.save(admin);
+        return ResponseEntity.ok(savedAdmin);
+    }
 }
