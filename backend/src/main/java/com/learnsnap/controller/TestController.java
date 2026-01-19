@@ -3,8 +3,11 @@ package com.learnsnap.controller;
 import com.learnsnap.domain.category.Category;
 import com.learnsnap.domain.user.Role;
 import com.learnsnap.domain.user.User;
+import com.learnsnap.domain.video.DifficultyLevel;
+import com.learnsnap.domain.video.Video;
 import com.learnsnap.repository.CategoryRepository;
 import com.learnsnap.repository.UserRepository;
+import com.learnsnap.repository.VideoRepository;
 import com.learnsnap.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +29,7 @@ public class TestController {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final CategoryRepository categoryRepository;
+    private final VideoRepository videoRepository;
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
@@ -174,5 +178,137 @@ public class TestController {
         
         User savedAdmin = userRepository.save(admin);
         return ResponseEntity.ok(savedAdmin);
+    }
+
+    // 테스트 비디오 생성
+    @PostMapping("/video")
+    public ResponseEntity<Video> createTestVideo() {
+        // 첫 번째 카테고리 찾기
+        Category category = categoryRepository.findAll().stream()
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("카테고리가 없습니다"));
+
+        // 강사 역할 사용자 찾기 또는 생성
+        User instructor = userRepository.findAll().stream()
+                .filter(u -> u.getRole() == Role.INSTRUCTOR || u.getRole() == Role.ADMIN)
+                .findFirst()
+                .orElseGet(() -> {
+                    User newInstructor = User.builder()
+                            .email("instructor@learnsnap.com")
+                            .password(passwordEncoder.encode("instructor123"))
+                            .username("강사")
+                            .role(Role.INSTRUCTOR)
+                            .build();
+                    return userRepository.save(newInstructor);
+                });
+
+        // 비디오 생성
+        Video video = Video.builder()
+                .title("Spring Boot 입문 강의")
+                .description("Spring Boot의 기초부터 배우는 강의입니다")
+                .videoUrl("https://example.com/videos/spring-boot-intro.mp4")
+                .thumbnailUrl("https://example.com/thumbnails/spring-boot-intro.jpg")
+                .duration(600)  // 10분
+                .difficultyLevel(DifficultyLevel.BEGINNER)
+                .category(category)
+                .instructor(instructor)
+                .build();
+
+        Video saved = videoRepository.save(video);
+        return ResponseEntity.ok(saved);
+    }
+
+    // 모든 비디오 조회
+    @GetMapping("/videos")
+    public ResponseEntity<List<Video>> getAllVideos() {
+        List<Video> videos = videoRepository.findAll();
+        return ResponseEntity.ok(videos);
+    }
+
+    // 여러 테스트 비디오 생성
+    @PostMapping("/videos/init")
+    public ResponseEntity<List<Video>> initializeVideos() {
+        // 기존 비디오 삭제
+        videoRepository.deleteAll();
+
+        // 카테고리와 강사 찾기
+        List<Category> categories = categoryRepository.findAll();
+        if (categories.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        User instructor = userRepository.findAll().stream()
+                .filter(u -> u.getRole() == Role.INSTRUCTOR || u.getRole() == Role.ADMIN)
+                .findFirst()
+                .orElseGet(() -> {
+                    User newInstructor = User.builder()
+                            .email("instructor@learnsnap.com")
+                            .password(passwordEncoder.encode("instructor123"))
+                            .username("강사")
+                            .role(Role.INSTRUCTOR)
+                            .build();
+                    return userRepository.save(newInstructor);
+                });
+
+        // 여러 비디오 생성
+        List<Video> videos = List.of(
+            Video.builder()
+                .title("Spring Boot 입문")
+                .description("Spring Boot의 기초부터 배우는 강의")
+                .videoUrl("https://example.com/videos/spring-boot-intro.mp4")
+                .thumbnailUrl("https://example.com/thumbnails/spring-boot-intro.jpg")
+                .duration(600)
+                .difficultyLevel(DifficultyLevel.BEGINNER)
+                .category(categories.get(0))
+                .instructor(instructor)
+                .build(),
+            
+            Video.builder()
+                .title("React 기초 강의")
+                .description("React의 기본 개념과 컴포넌트")
+                .videoUrl("https://example.com/videos/react-basics.mp4")
+                .thumbnailUrl("https://example.com/thumbnails/react-basics.jpg")
+                .duration(900)
+                .difficultyLevel(DifficultyLevel.BEGINNER)
+                .category(categories.size() > 1 ? categories.get(1) : categories.get(0))
+                .instructor(instructor)
+                .build(),
+            
+            Video.builder()
+                .title("Java 심화 과정")
+                .description("Java의 고급 기능과 디자인 패턴")
+                .videoUrl("https://example.com/videos/java-advanced.mp4")
+                .thumbnailUrl("https://example.com/thumbnails/java-advanced.jpg")
+                .duration(1200)
+                .difficultyLevel(DifficultyLevel.ADVANCED)
+                .category(categories.get(0))
+                .instructor(instructor)
+                .build(),
+            
+            Video.builder()
+                .title("Docker 입문")
+                .description("Docker 기초와 컨테이너 개념")
+                .videoUrl("https://example.com/videos/docker-intro.mp4")
+                .thumbnailUrl("https://example.com/thumbnails/docker-intro.jpg")
+                .duration(750)
+                .difficultyLevel(DifficultyLevel.INTERMEDIATE)
+                .category(categories.size() > 2 ? categories.get(2) : categories.get(0))
+                .instructor(instructor)
+                .build(),
+            
+            Video.builder()
+                .title("PostgreSQL 완벽 가이드")
+                .description("PostgreSQL 설치부터 고급 쿼리까지")
+                .videoUrl("https://example.com/videos/postgresql-guide.mp4")
+                .thumbnailUrl("https://example.com/thumbnails/postgresql-guide.jpg")
+                .duration(1800)
+                .difficultyLevel(DifficultyLevel.INTERMEDIATE)
+                .category(categories.size() > 3 ? categories.get(3) : categories.get(0))
+                .instructor(instructor)
+                .build()
+        );
+
+        List<Video> savedVideos = videoRepository.saveAll(videos);
+        return ResponseEntity.ok(savedVideos);
     }
 }
