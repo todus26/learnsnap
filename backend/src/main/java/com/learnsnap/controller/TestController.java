@@ -311,4 +311,18 @@ public class TestController {
         List<Video> savedVideos = videoRepository.saveAll(videos);
         return ResponseEntity.ok(savedVideos);
     }
+
+    // 강사 사용자 생성
+    @PostMapping("/instructor")
+    public ResponseEntity<User> createInstructorUser() {
+        User instructor = User.builder()
+                .email("instructor@learnsnap.com")
+                .password(passwordEncoder.encode("instructor123"))
+                .username("강사")
+                .role(Role.INSTRUCTOR)
+                .build();
+        
+        User savedInstructor = userRepository.save(instructor);
+        return ResponseEntity.ok(savedInstructor);
+    }
 }
