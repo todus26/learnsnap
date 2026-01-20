@@ -86,4 +86,30 @@ public class GlobalExceptionHandler {
         
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
+
+    // 비디오를 찾을 수 없음
+    @ExceptionHandler(VideoNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleVideoNotFound(VideoNotFoundException ex) {
+        ErrorResponse error = ErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.NOT_FOUND.value())
+                .error("Not Found")
+                .message(ex.getMessage())
+                .build();
+        
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    // 권한 없음
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    public ResponseEntity<ErrorResponse> handleUnauthorizedAccess(UnauthorizedAccessException ex) {
+        ErrorResponse error = ErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.FORBIDDEN.value())
+                .error("Forbidden")
+                .message(ex.getMessage())
+                .build();
+        
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+    }
 }

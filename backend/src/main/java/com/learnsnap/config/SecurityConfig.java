@@ -48,8 +48,11 @@ public class SecurityConfig {
                     "/api/status",
                     "/api/test/**",
                     "/api/auth/**",
-                    "/api/categories",      // GET /api/categories (전체 조회)
-                    "/api/categories/**"    // GET /api/categories/{id} (특정 조회)
+                    "/api/categories",
+                    "/api/categories/**",
+                    "/api/videos",           // GET /api/videos (전체 조회)
+                    "/api/videos/*",         // GET /api/videos/{id} (특정 조회)
+                    "/api/videos/*/view"     // POST /api/videos/{id}/view (조회수 증가)
                 ).permitAll()
                 
                 // 인증 필요한 경로
