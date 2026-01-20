@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/videos")
@@ -100,5 +101,67 @@ public class VideoController {
     public ResponseEntity<Map<String, Long>> incrementViews(@PathVariable Long id) {
         Map<String, Long> response = videoService.incrementViews(id);
         return ResponseEntity.ok(response);
+    }
+
+    // 비디오 검색
+    @GetMapping("/search")
+    public ResponseEntity<Page<VideoResponse>> searchVideos(
+            @RequestParam String q,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<VideoResponse> videos = videoService.searchVideos(q, pageable);
+        return ResponseEntity.ok(videos);
+    }
+
+    // 카테고리별 비디오 조회 (난이도 필터 포함)
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<Page<VideoResponse>> getVideosByCategory(
+            @PathVariable Long categoryId,
+            @RequestParam(required = false) DifficultyLevel difficulty,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        
+        Page<VideoResponse> videos;
+        if (difficulty != null) {
+            videos = videoService.getVideosByCategoryAndDifficulty(categoryId, difficulty, pageable);
+        } else {
+            videos = videoService.getVideosByCategory(categoryId, pageable);
+        }
+        
+        return ResponseEntity.ok(videos);
+    }
+
+    // 강사별 비디오 조회
+    @GetMapping("/instructor/{instructorId}")
+    public ResponseEntity<Page<VideoResponse>> getVideosByInstructor(
+            @PathVariable Long instructorId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<VideoResponse> videos = videoService.getVideosByInstructor(instructorId, pageable);
+        return ResponseEntity.ok(videos);
+    }
+
+    // 인기 비디오
+    @GetMapping("/popular")
+    public ResponseEntity<List<VideoResponse>> getPopularVideos(
+            @RequestParam(defaultValue = "10") int limit) {
+        
+        List<VideoResponse> videos = videoService.getPopularVideos(limit);
+        return ResponseEntity.ok(videos);
+    }
+
+    // 최신 비디오
+    @GetMapping("/recent")
+    public ResponseEntity<List<VideoResponse>> getRecentVideos(
+            @RequestParam(defaultValue = "10") int limit) {
+        
+        List<VideoResponse> videos = videoService.getRecentVideos(limit);
+        return ResponseEntity.ok(videos);
     }
 }

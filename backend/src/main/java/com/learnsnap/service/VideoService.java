@@ -22,7 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -190,5 +192,49 @@ public class VideoService {
                 .email(instructor.getEmail())
                 .profileImage(instructor.getProfileImage())
                 .build();
+    }
+
+    // 제목 또는 설명으로 검색
+    @Transactional(readOnly = true)
+    public Page<VideoResponse> searchVideos(String keyword, Pageable pageable) {
+        return videoRepository.findByTitleContainingOrDescriptionContaining(
+                keyword, keyword, pageable)
+                .map(this::convertToResponse);
+    }
+
+    // 강사별 비디오 조회
+    @Transactional(readOnly = true)
+    public Page<VideoResponse> getVideosByInstructor(Long instructorId, Pageable pageable) {
+        return videoRepository.findByInstructorId(instructorId, pageable)
+                .map(this::convertToResponse);
+    }
+
+    // 카테고리와 난이도로 필터링
+    @Transactional(readOnly = true)
+    public Page<VideoResponse> getVideosByCategoryAndDifficulty(
+            Long categoryId, DifficultyLevel difficulty, Pageable pageable) {
+        return videoRepository.findByCategoryIdAndDifficultyLevel(
+                categoryId, difficulty, pageable)
+                .map(this::convertToResponse);
+    }
+
+    // 인기 비디오 (조회수 많은 순)
+    @Transactional(readOnly = true)
+    public List<VideoResponse> getPopularVideos(int limit) {
+        List<Video> videos = videoRepository.findTop10ByOrderByViewsCountDesc();
+        return videos.stream()
+                .limit(limit)
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+    }
+
+    // 최신 비디오
+    @Transactional(readOnly = true)
+    public List<VideoResponse> getRecentVideos(int limit) {
+        List<Video> videos = videoRepository.findTop10ByOrderByCreatedAtDesc();
+        return videos.stream()
+                .limit(limit)
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
     }
 }
