@@ -21,16 +21,30 @@ const VideosPage = () => {
     setError(null);
 
     try {
+      // 파라미터 간소화
       const response = await getVideos({
         page: page,
-        size: pageSize,
-        sort: 'createdAt,desc' // 최신순
+        size: pageSize
       });
 
-      setVideos(response.content);
-      setCurrentPage(response.page);
-      setTotalPages(response.totalPages);
-      setTotalElements(response.totalElements);
+      // response가 배열인 경우와 객체인 경우 모두 처리
+      if (Array.isArray(response)) {
+        // 백엔드가 배열을 반환하는 경우
+        setVideos(response);
+        setCurrentPage(0);
+        setTotalPages(1);
+        setTotalElements(response.length);
+      } else if (response.content) {
+        // 백엔드가 Page 객체를 반환하는 경우
+        setVideos(response.content);
+        setCurrentPage(response.number || response.page || 0);
+        setTotalPages(response.totalPages || 1);
+        setTotalElements(response.totalElements || 0);
+      } else {
+        // 예상치 못한 형식
+        console.error('예상치 못한 응답 형식:', response);
+        setError('데이터 형식이 올바르지 않습니다.');
+      }
     } catch (err) {
       console.error('비디오 목록 불러오기 실패:', err);
       setError('비디오 목록을 불러오는 데 실패했습니다.');
