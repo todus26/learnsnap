@@ -1,38 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import useAuthStore from '../../store/authStore';
 
 const Header = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-
-  // 로그인 상태 확인
-  useEffect(() => {
-    const checkAuth = () => {
-      const token = localStorage.getItem('accessToken');
-      const userData = localStorage.getItem('user');
-      
-      if (token && userData) {
-        setUser(JSON.parse(userData));
-      } else {
-        setUser(null);
-      }
-    };
-
-    checkAuth();
-
-    // storage 이벤트 리스너 추가 (다른 탭에서 로그인/로그아웃 시)
-    window.addEventListener('storage', checkAuth);
-    
-    return () => {
-      window.removeEventListener('storage', checkAuth);
-    };
-  }, []);
+  
+  // Zustand 스토어에서 상태 가져오기
+  const { user, isAuthenticated, logout } = useAuthStore((state) => ({
+    user: state.user,
+    isAuthenticated: state.isAuthenticated,
+    logout: state.logout,
+  }));
 
   // 로그아웃 핸들러
   const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('user');
-    setUser(null);
+    logout();
     navigate('/');
   };
 
@@ -54,7 +36,7 @@ const Header = () => {
           </nav>
           
           <div className="flex items-center space-x-4">
-            {user ? (
+            {isAuthenticated && user ? (
               // 로그인 상태
               <>
                 <Link 
