@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../services/authService';
 
@@ -81,8 +81,14 @@ const LoginPage = () => {
         password: '',
       });
 
-      // 홈 페이지로 이동
-      navigate('/');
+      // 저장된 리다이렉트 경로가 있으면 해당 경로로, 없으면 홈으로 이동
+      const redirectPath = localStorage.getItem('redirectPath');
+      if (redirectPath) {
+        localStorage.removeItem('redirectPath');
+        navigate(redirectPath);
+      } else {
+        navigate('/');
+      }
 
     } catch (error) {
       console.error('로그인 실패:', error);
