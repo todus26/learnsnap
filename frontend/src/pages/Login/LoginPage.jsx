@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { login } from '../../services/authService';
+import { login as loginAPI } from '../../services/authService';
+import useAuthStore from '../../store/authStore';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const login = useAuthStore((state) => state.login);
   
   // 폼 데이터
   const [formData, setFormData] = useState({
@@ -69,11 +71,10 @@ const LoginPage = () => {
 
     try {
       // 로그인 API 호출
-      const response = await login(formData);
+      const response = await loginAPI(formData);
       
-      // JWT 토큰을 localStorage에 저장
-      localStorage.setItem('accessToken', response.accessToken);
-      localStorage.setItem('user', JSON.stringify(response.user));
+      // Zustand 스토어에 로그인 정보 저장
+      login(response.user, response.accessToken);
 
       // 폼 초기화
       setFormData({
