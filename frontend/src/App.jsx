@@ -13,12 +13,10 @@ import CategoriesPage from './pages/Categories/CategoriesPage';
 import NotFoundPage from './pages/NotFound/NotFoundPage';
 
 function App() {
-  const checkAuth = useAuthStore((state) => state.checkAuth);
-
-  // 앱 시작 시 인증 상태 확인
+  // 앱 시작 시 인증 상태 확인 (dependency 배열 비워서 한 번만 실행)
   useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
+    useAuthStore.getState().checkAuth();
+  }, []); // 빈 배열로 수정!
 
   return (
     <BrowserRouter>

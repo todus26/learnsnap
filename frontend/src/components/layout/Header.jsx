@@ -5,16 +5,14 @@ import useAuthStore from '../../store/authStore';
 const Header = () => {
   const navigate = useNavigate();
   
-  // Zustand 스토어에서 상태 가져오기
-  const { user, isAuthenticated, logout } = useAuthStore((state) => ({
-    user: state.user,
-    isAuthenticated: state.isAuthenticated,
-    logout: state.logout,
-  }));
+  // 상태만 가져오기 (함수는 제외)
+  const user = useAuthStore((state) => state.user);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   // 로그아웃 핸들러
   const handleLogout = () => {
-    logout();
+    // getState()로 직접 함수 호출
+    useAuthStore.getState().logout();
     navigate('/');
   };
 
