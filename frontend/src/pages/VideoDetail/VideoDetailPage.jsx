@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getVideoById, incrementViews, getVideosByCategory } from '../../services/videoService';
 import VideoPlayer from '../../components/video/VideoPlayer';
 import RecommendedVideos from '../../components/video/RecommendedVideos';
+import Quiz from '../../components/quiz/Quiz';
 
 const VideoDetailPage = () => {
   const { id } = useParams();
@@ -226,6 +227,11 @@ const VideoDetailPage = () => {
                 업로드: {new Date(video.createdAt).toLocaleDateString('ko-KR')}
               </div>
             )}
+          </div>
+
+          {/* 퀴즈 섹션 */}
+          <div className="mt-10 pt-8 border-t">
+            <Quiz videoId={video.id} />
           </div>
         </div>
 
