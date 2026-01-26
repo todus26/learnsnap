@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import useAuthStore from '../../store/authStore';
-import { getStreak, getPoints, getUserBadges } from '../../services/gamificationService';
+import { getStreak, getPoints, getUserBadges, getBadges } from '../../services/gamificationService';
 import StreakCard from '../../components/gamification/StreakCard';
 import PointsCard from '../../components/gamification/PointsCard';
 import BadgesList from '../../components/gamification/BadgesList';
+import AllBadges from '../../components/gamification/AllBadges';
 
 const ProfilePage = () => {
   const user = useAuthStore((state) => state.user);
@@ -11,7 +12,8 @@ const ProfilePage = () => {
   // 상태 관리
   const [streak, setStreak] = useState(null);
   const [points, setPoints] = useState(null);
-  const [badges, setBadges] = useState([]);
+  const [userBadges, setUserBadges] = useState([]);
+  const [allBadges, setAllBadges] = useState([]);
   const [activeTab, setActiveTab] = useState('overview');
   const [loading, setLoading] = useState(false);
   const [apiAvailable, setApiAvailable] = useState(false);
@@ -29,12 +31,16 @@ const ProfilePage = () => {
       const pointsData = await getPoints();
       setPoints(pointsData);
 
-      // 뱃지 정보
-      const badgesData = await getUserBadges();
-      setBadges(Array.isArray(badgesData) ? badgesData : []);
+      // 사용자 뱃지
+      const userBadgesData = await getUserBadges();
+      setUserBadges(Array.isArray(userBadgesData) ? userBadgesData : []);
+
+      // 전체 뱃지 목록
+      const allBadgesData = await getBadges();
+      setAllBadges(Array.isArray(allBadgesData) ? allBadgesData : []);
 
       // 데이터가 있으면 API 사용 가능
-      if (streakData.currentStreak > 0 || pointsData.totalPoints > 0 || badgesData.length > 0) {
+      if (streakData.currentStreak > 0 || pointsData.totalPoints > 0 || userBadgesData.length > 0 || allBadgesData.length > 0) {
         setApiAvailable(true);
       }
     } catch (err) {
@@ -76,7 +82,7 @@ const ProfilePage = () => {
             <p className="text-sm text-gray-500 mt-1">
               역할: {user.role === 'LEARNER' ? '학습자' : user.role === 'INSTRUCTOR' ? '강사' : '관리자'}
             </p>
-            
+
             {/* 레벨 및 포인트 간단 표시 */}
             {points && (
               <div className="flex items-center gap-4 mt-3">
@@ -130,14 +136,24 @@ const ProfilePage = () => {
             개요
           </button>
           <button
-            onClick={() => setActiveTab('badges')}
+            onClick={() => setActiveTab('my-badges')}
             className={`pb-4 px-2 font-semibold transition-colors ${
-              activeTab === 'badges'
+              activeTab === 'my-badges'
                 ? 'text-blue-600 border-b-2 border-blue-600'
                 : 'text-gray-600 hover:text-blue-600'
             }`}
           >
-            뱃지 ({badges.length})
+            내 뱃지 ({userBadges.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('all-badges')}
+            className={`pb-4 px-2 font-semibold transition-colors ${
+              activeTab === 'all-badges'
+                ? 'text-blue-600 border-b-2 border-blue-600'
+                : 'text-gray-600 hover:text-blue-600'
+            }`}
+          >
+            전체 뱃지 ({allBadges.length})
           </button>
         </div>
       </div>
@@ -164,20 +180,20 @@ const ProfilePage = () => {
                 <PointsCard points={points} />
               </div>
 
-              {/* 최근 획득 뱃지 (최대 4개) */}
-              {badges.length > 0 && (
+              {/* 최근 획득 뱃지 */}
+              {userBadges.length > 0 && (
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-xl font-bold">최근 획득한 뱃지</h3>
                     <button
-                      onClick={() => setActiveTab('badges')}
+                      onClick={() => setActiveTab('my-badges')}
                       className="text-blue-600 hover:text-blue-700 text-sm font-semibold"
                     >
                       전체 보기 →
                     </button>
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {badges.slice(0, 4).map((badge, index) => (
+                    {userBadges.slice(0, 4).map((badge, index) => (
                       <div
                         key={badge.id || index}
                         className="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg p-6 text-white text-center shadow-md"
@@ -194,9 +210,14 @@ const ProfilePage = () => {
             </div>
           )}
 
-          {/* 뱃지 탭 */}
-          {activeTab === 'badges' && (
-            <BadgesList userBadges={badges} />
+          {/* 내 뱃지 탭 */}
+          {activeTab === 'my-badges' && (
+            <BadgesList userBadges={userBadges} />
+          )}
+
+          {/* 전체 뱃지 탭 */}
+          {activeTab === 'all-badges' && (
+            <AllBadges allBadges={allBadges} userBadges={userBadges} />
           )}
         </div>
       )}
