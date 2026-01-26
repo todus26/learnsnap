@@ -68,6 +68,16 @@ const Header = () => {
             >
               카테고리
             </Link>
+            <Link 
+              to="/leaderboard" 
+              className={`transition-colors ${
+                isActive('/leaderboard') 
+                  ? 'text-blue-600 font-semibold' 
+                  : 'text-gray-700 hover:text-blue-600'
+              }`}
+            >
+              🏆 리더보드
+            </Link>
           </nav>
           
           {/* 데스크톱 인증 버튼 */}
@@ -165,6 +175,17 @@ const Header = () => {
                 }`}
               >
                 카테고리
+              </Link>
+              <Link 
+                to="/leaderboard" 
+                onClick={handleLinkClick}
+                className={`px-2 py-2 rounded transition-colors ${
+                  isActive('/leaderboard') 
+                    ? 'text-blue-600 font-semibold bg-blue-50' 
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                🏆 리더보드
               </Link>
               
               {/* 모바일 인증 버튼 */}

@@ -10,6 +10,7 @@ import VideosPage from './pages/Videos/VideosPage';
 import VideoDetailPage from './pages/VideoDetail/VideoDetailPage';
 import ProfilePage from './pages/Profile/ProfilePage';
 import CategoriesPage from './pages/Categories/CategoriesPage';
+import LeaderboardPage from './pages/Leaderboard/LeaderboardPage';
 import NotFoundPage from './pages/NotFound/NotFoundPage';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path="videos" element={<VideosPage />} />
           <Route path="videos/:id" element={<VideoDetailPage />} />
           <Route path="categories" element={<CategoriesPage />} />
+          <Route path="leaderboard" element={<LeaderboardPage />} />
           
           {/* 보호된 라우트 (로그인 필요) */}
           <Route 
