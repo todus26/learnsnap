@@ -76,6 +76,21 @@ export const getRecentVideos = async (limit = 10) => {
   }
 };
 
+// 비디오 업로드 (강사/관리자) - FormData
+export const uploadVideo = async (formData, onUploadProgress) => {
+  try {
+    const response = await api.post('/videos/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      onUploadProgress: onUploadProgress
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
 // 비디오 생성 (강사/관리자)
 export const createVideo = async (videoData) => {
   try {

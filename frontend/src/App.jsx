@@ -11,6 +11,7 @@ import VideoDetailPage from './pages/VideoDetail/VideoDetailPage';
 import ProfilePage from './pages/Profile/ProfilePage';
 import CategoriesPage from './pages/Categories/CategoriesPage';
 import LeaderboardPage from './pages/Leaderboard/LeaderboardPage';
+import InstructorPage from './pages/Instructor/InstructorPage';
 import NotFoundPage from './pages/NotFound/NotFoundPage';
 
 function App() {
@@ -37,6 +38,16 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProfilePage />
+              </ProtectedRoute>
+            } 
+          />
+          
+          {/* 강사 전용 라우트 */}
+          <Route 
+            path="instructor/upload" 
+            element={
+              <ProtectedRoute>
+                <InstructorPage />
               </ProtectedRoute>
             } 
           />
