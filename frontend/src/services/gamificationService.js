@@ -37,7 +37,7 @@ export const getPoints = async () => {
   }
 };
 
-// 뱃지 목록 조회
+// 전체 뱃지 목록 조회 (시스템에 등록된 모든 뱃지)
 export const getBadges = async () => {
   try {
     const response = await api.get('/gamification/badges');
