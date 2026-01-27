@@ -84,18 +84,30 @@ const Header = () => {
           <div className="hidden md:flex items-center space-x-4">
             {isAuthenticated && user ? (
               <>
-                {/* 강사/관리자 전용 업로드 버튼 */}
+                {/* 강사/관리자 전용 메뉴 */}
                 {(user.role === 'INSTRUCTOR' || user.role === 'ADMIN') && (
-                  <Link 
-                    to="/instructor/upload" 
-                    className={`transition-colors ${
-                      isActive('/instructor/upload') 
-                        ? 'text-blue-600 font-semibold' 
-                        : 'text-gray-700 hover:text-blue-600'
-                    }`}
-                  >
-                    📹 업로드
-                  </Link>
+                  <>
+                    <Link 
+                      to="/instructor/dashboard" 
+                      className={`transition-colors ${
+                        isActive('/instructor/dashboard') 
+                          ? 'text-blue-600 font-semibold' 
+                          : 'text-gray-700 hover:text-blue-600'
+                      }`}
+                    >
+                      📊 대시보드
+                    </Link>
+                    <Link 
+                      to="/instructor/upload" 
+                      className={`transition-colors ${
+                        isActive('/instructor/upload') 
+                          ? 'text-blue-600 font-semibold' 
+                          : 'text-gray-700 hover:text-blue-600'
+                      }`}
+                    >
+                      📹 업로드
+                    </Link>
+                  </>
                 )}
                 <Link 
                   to="/profile" 
@@ -205,19 +217,32 @@ const Header = () => {
               <div className="border-t pt-3 mt-3">
                 {isAuthenticated && user ? (
                   <>
-                    {/* 강사/관리자 전용 업로드 버튼 */}
+                    {/* 강사/관리자 전용 메뉴 */}
                     {(user.role === 'INSTRUCTOR' || user.role === 'ADMIN') && (
-                      <Link 
-                        to="/instructor/upload" 
-                        onClick={handleLinkClick}
-                        className={`block px-2 py-2 rounded transition-colors ${
-                          isActive('/instructor/upload') 
-                            ? 'text-blue-600 font-semibold bg-blue-50' 
-                            : 'text-gray-700 hover:bg-gray-100'
-                        }`}
-                      >
-                        📹 비디오 업로드
-                      </Link>
+                      <>
+                        <Link 
+                          to="/instructor/dashboard" 
+                          onClick={handleLinkClick}
+                          className={`block px-2 py-2 rounded transition-colors ${
+                            isActive('/instructor/dashboard') 
+                              ? 'text-blue-600 font-semibold bg-blue-50' 
+                              : 'text-gray-700 hover:bg-gray-100'
+                          }`}
+                        >
+                          📊 강사 대시보드
+                        </Link>
+                        <Link 
+                          to="/instructor/upload" 
+                          onClick={handleLinkClick}
+                          className={`block px-2 py-2 rounded transition-colors ${
+                            isActive('/instructor/upload') 
+                              ? 'text-blue-600 font-semibold bg-blue-50' 
+                              : 'text-gray-700 hover:bg-gray-100'
+                          }`}
+                        >
+                          📹 비디오 업로드
+                        </Link>
+                      </>
                     )}
                     <Link 
                       to="/profile" 
