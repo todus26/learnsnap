@@ -6,6 +6,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  timeout: 10000, // 10초 타임아웃
 });
 
 // Request 인터셉터: JWT 토큰 자동 첨부
@@ -23,6 +24,7 @@ api.interceptors.request.use(
   },
   (error) => {
     // 요청 에러 처리
+    console.error('API Request Error:', error);
     return Promise.reject(error);
   }
 );
@@ -34,37 +36,68 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
+    // 네트워크 에러 (서버 응답 없음)
+    if (!error.response) {
+      console.error('Network Error:', error.message);
+      
+      // 타임아웃 에러
+      if (error.code === 'ECONNABORTED') {
+        console.error('Request timeout');
+      }
+      
+      return Promise.reject(error);
+    }
+
     // 에러 응답 처리
-    if (error.response) {
-      const { status } = error.response;
+    const { status, data } = error.response;
 
-      // 401 Unauthorized: 토큰 만료 또는 인증 실패
-      if (status === 401) {
-        // 토큰 제거
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('user');
+    // 401 Unauthorized: 토큰 만료 또는 인증 실패
+    if (status === 401) {
+      console.error('Unauthorized: 인증 실패');
+      
+      // 토큰 제거
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('user');
+      
+      // 로그인 페이지가 아닌 경우에만 리다이렉트
+      const currentPath = window.location.pathname;
+      if (currentPath !== '/login' && currentPath !== '/signup') {
+        // 현재 페이지 경로 저장 (로그인 후 돌아가기 위해)
+        localStorage.setItem('redirectPath', currentPath);
         
-        // 로그인 페이지가 아닌 경우에만 리다이렉트
-        if (window.location.pathname !== '/login') {
-          // 현재 페이지 경로 저장 (로그인 후 돌아가기 위해)
-          localStorage.setItem('redirectPath', window.location.pathname);
-          
-          // 로그인 페이지로 리다이렉트
-          window.location.href = '/login';
-        }
-      }
-
-      // 403 Forbidden: 권한 없음
-      if (status === 403) {
-        console.error('접근 권한이 없습니다.');
-        // 필요시 alert나 toast 메시지 표시
-      }
-
-      // 500 Internal Server Error
-      if (status === 500) {
-        console.error('서버 오류가 발생했습니다.');
+        // 로그인 페이지로 리다이렉트
+        window.location.href = '/login';
       }
     }
+
+    // 403 Forbidden: 권한 없음
+    if (status === 403) {
+      console.error('Forbidden: 접근 권한이 없습니다');
+      
+      // 권한 없음 페이지로 리다이렉트 (필요시)
+      // window.location.href = '/unauthorized';
+    }
+
+    // 404 Not Found
+    if (status === 404) {
+      console.error('Not Found:', data?.message || '리소스를 찾을 수 없습니다');
+    }
+
+    // 500 Internal Server Error
+    if (status >= 500) {
+      console.error('Server Error:', status, data?.message || '서버 오류');
+      
+      // 서버 에러 페이지로 리다이렉트 (필요시)
+      // window.location.href = '/server-error';
+    }
+
+    // 에러 로깅 (프로덕션에서는 Sentry 등의 서비스 사용)
+    console.error('API Error:', {
+      status,
+      url: error.config?.url,
+      method: error.config?.method,
+      data: data
+    });
 
     return Promise.reject(error);
   }
