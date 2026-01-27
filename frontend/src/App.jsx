@@ -12,6 +12,7 @@ import ProfilePage from './pages/Profile/ProfilePage';
 import CategoriesPage from './pages/Categories/CategoriesPage';
 import LeaderboardPage from './pages/Leaderboard/LeaderboardPage';
 import InstructorPage from './pages/Instructor/InstructorPage';
+import InstructorDashboardPage from './pages/Instructor/InstructorDashboardPage';
 import NotFoundPage from './pages/NotFound/NotFoundPage';
 
 function App() {
@@ -43,6 +44,14 @@ function App() {
           />
           
           {/* 강사 전용 라우트 */}
+          <Route 
+            path="instructor/dashboard" 
+            element={
+              <ProtectedRoute>
+                <InstructorDashboardPage />
+              </ProtectedRoute>
+            } 
+          />
           <Route 
             path="instructor/upload" 
             element={
