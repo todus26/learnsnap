@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getLeaderboard } from '../../services/gamificationService';
 import useAuthStore from '../../store/authStore';
+import LeaderboardSkeleton from '../../components/common/LeaderboardSkeleton';
 
 const LeaderboardPage = () => {
   const user = useAuthStore((state) => state.user);
@@ -116,15 +117,8 @@ const LeaderboardPage = () => {
         </div>
       )}
 
-      {/* 로딩 중 */}
-      {loading && (
-        <div className="flex items-center justify-center py-12">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
-            <p className="mt-4 text-gray-600">리더보드를 불러오는 중...</p>
-          </div>
-        </div>
-      )}
+      {/* 로딩 중 - 스켈레톤 UI */}
+      {loading && <LeaderboardSkeleton />}
 
       {/* 에러 */}
       {error && !loading && (
