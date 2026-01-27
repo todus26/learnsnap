@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getCategories } from '../../services/categoryService';
 import CategoryCard from '../../components/category/CategoryCard';
+import { CategoryCardSkeletonList } from '../../components/common/CategoryCardSkeleton';
 
 const CategoriesPage = () => {
   // 상태 관리
@@ -40,17 +41,12 @@ const CategoriesPage = () => {
     fetchCategories();
   }, []);
 
-  // 로딩 중
+  // 로딩 중 - 스켈레톤 UI
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-6">카테고리</h1>
-        <div className="flex items-center justify-center min-h-[400px]">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
-            <p className="mt-4 text-gray-600">카테고리를 불러오는 중...</p>
-          </div>
-        </div>
+        <CategoryCardSkeletonList count={8} />
       </div>
     );
   }

@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { getVideos, searchVideos, getVideosByCategory } from '../../services/videoService';
 import { getCategories } from '../../services/categoryService';
 import VideoCard from '../../components/video/VideoCard';
+import { VideoCardSkeletonList } from '../../components/common/VideoCardSkeleton';
 import Pagination from '../../components/common/Pagination';
 import SearchBar from '../../components/common/SearchBar';
 import FilterDropdown from '../../components/common/FilterDropdown';
@@ -258,17 +259,22 @@ const VideosPage = () => {
         )}
       </div>
 
+      {/* 로딩 중 - 스켈레톤 UI */}
+      {loading && <VideoCardSkeletonList count={9} />}
+
       {/* 결과 카운트 */}
-      <div className="mb-4">
-        <p className="text-gray-600">
-          {searchKeyword || selectedCategory || selectedDifficulty
-            ? `검색 결과: ${totalElements.toLocaleString()}개`
-            : `전체: ${totalElements.toLocaleString()}개`}
-        </p>
-      </div>
+      {!loading && (
+        <div className="mb-4">
+          <p className="text-gray-600">
+            {searchKeyword || selectedCategory || selectedDifficulty
+              ? `검색 결과: ${totalElements.toLocaleString()}개`
+              : `전체: ${totalElements.toLocaleString()}개`}
+          </p>
+        </div>
+      )}
 
       {/* 비디오 없음 */}
-      {videos.length === 0 ? (
+      {!loading && videos.length === 0 ? (
         <div className="flex items-center justify-center min-h-[400px]">
           <div className="text-center">
             <p className="text-gray-600 text-lg mb-4">
