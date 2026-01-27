@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import { getCategories } from '../../services/categoryService';
 import { uploadVideo } from '../../services/videoService';
+import { useToast } from '../../contexts/ToastContext';
 
 const InstructorPage = () => {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
+  const { showSuccess, showError } = useToast();
 
   // 폼 상태
   const [formData, setFormData] = useState({
@@ -178,7 +180,7 @@ const InstructorPage = () => {
       setUploadProgress(100);
 
       // 성공 알림
-      alert('비디오가 성공적으로 업로드되었습니다!');
+      showSuccess('비디오가 성공적으로 업로드되었습니다!');
 
       // 업로드된 비디오 페이지로 이동
       if (response.id) {
@@ -188,7 +190,9 @@ const InstructorPage = () => {
       }
     } catch (err) {
       console.error('업로드 실패:', err);
-      setError(err.response?.data?.message || '비디오 업로드에 실패했습니다.');
+      const errorMessage = err.response?.data?.message || '비디오 업로드에 실패했습니다.';
+      showError(errorMessage);
+      setError(errorMessage);
     } finally {
       setUploading(false);
     }

@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import { getVideosByInstructor, deleteVideo } from '../../services/videoService';
+import { useToast } from '../../contexts/ToastContext';
 
 const InstructorDashboardPage = () => {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
+  const { showSuccess, showError } = useToast();
 
   // 상태 관리
   const [videos, setVideos] = useState([]);
@@ -70,11 +72,11 @@ const InstructorDashboardPage = () => {
 
     try {
       await deleteVideo(videoId);
-      alert('비디오가 삭제되었습니다.');
+      showSuccess('비디오가 삭제되었습니다.');
       fetchVideos(); // 목록 새로고침
     } catch (err) {
       console.error('비디오 삭제 실패:', err);
-      alert('비디오 삭제에 실패했습니다.');
+      showError('비디오 삭제에 실패했습니다.');
     }
   };
 

@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import useAuthStore from './store/authStore';
+import { ToastProvider } from './contexts/ToastContext';
+import ToastContainer from './components/common/ToastContainer';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import Layout from './components/layout/Layout';
 import HomePage from './pages/Home/HomePage';
@@ -22,49 +24,52 @@ function App() {
   }, []); // 빈 배열로 수정!
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="signup" element={<SignupPage />} />
-          <Route path="videos" element={<VideosPage />} />
-          <Route path="videos/:id" element={<VideoDetailPage />} />
-          <Route path="categories" element={<CategoriesPage />} />
-          <Route path="leaderboard" element={<LeaderboardPage />} />
-          
-          {/* 보호된 라우트 (로그인 필요) */}
-          <Route 
-            path="profile" 
-            element={
-              <ProtectedRoute>
-                <ProfilePage />
-              </ProtectedRoute>
-            } 
-          />
-          
-          {/* 강사 전용 라우트 */}
-          <Route 
-            path="instructor/dashboard" 
-            element={
-              <ProtectedRoute>
-                <InstructorDashboardPage />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="instructor/upload" 
-            element={
-              <ProtectedRoute>
-                <InstructorPage />
-              </ProtectedRoute>
-            } 
-          />
-          
-          <Route path="*" element={<NotFoundPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <ToastProvider>
+      <BrowserRouter>
+        <ToastContainer />
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="signup" element={<SignupPage />} />
+            <Route path="videos" element={<VideosPage />} />
+            <Route path="videos/:id" element={<VideoDetailPage />} />
+            <Route path="categories" element={<CategoriesPage />} />
+            <Route path="leaderboard" element={<LeaderboardPage />} />
+            
+            {/* 보호된 라우트 (로그인 필요) */}
+            <Route 
+              path="profile" 
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              } 
+            />
+            
+            {/* 강사 전용 라우트 */}
+            <Route 
+              path="instructor/dashboard" 
+              element={
+                <ProtectedRoute>
+                  <InstructorDashboardPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="instructor/upload" 
+              element={
+                <ProtectedRoute>
+                  <InstructorPage />
+                </ProtectedRoute>
+              } 
+            />
+            
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </ToastProvider>
   );
 }
 
