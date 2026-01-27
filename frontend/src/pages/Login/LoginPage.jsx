@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { login as loginAPI } from '../../services/authService';
 import useAuthStore from '../../store/authStore';
+import { useToast } from '../../contexts/ToastContext';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
+  const { showSuccess, showError } = useToast();
   
   // 폼 데이터
   const [formData, setFormData] = useState({
@@ -82,6 +84,9 @@ const LoginPage = () => {
         password: '',
       });
 
+      // 토스트 알림
+      showSuccess('로그인 성공!');
+
       // 저장된 리다이렉트 경로가 있으면 해당 경로로, 없으면 홈으로 이동
       const redirectPath = localStorage.getItem('redirectPath');
       if (redirectPath) {
@@ -94,6 +99,10 @@ const LoginPage = () => {
     } catch (error) {
       console.error('로그인 실패:', error);
       
+      // 토스트 에러 알림
+      const errorMessage = error.message || '로그인 중 오류가 발생했습니다';
+      showError(errorMessage);
+
       // 서버에서 온 에러 메시지 처리
       if (error.message) {
         setErrors({ general: error.message });
@@ -113,13 +122,6 @@ const LoginPage = () => {
         <h1 className="text-3xl font-bold mb-6 text-center">로그인</h1>
         
         <div className="bg-white p-8 rounded-lg shadow-md">
-          {/* 일반 에러 메시지 */}
-          {errors.general && (
-            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-              {errors.general}
-            </div>
-          )}
-
           <form onSubmit={handleSubmit}>
             {/* 이메일 */}
             <div className="mb-4">
