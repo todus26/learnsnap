@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
+import Button from '../common/Button';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -34,124 +35,108 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
+    <header className="bg-white border-b border-secondary-200 sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* 로고 */}
           <Link 
             to="/" 
-            className="text-2xl font-bold text-blue-600"
+            className="text-2xl font-bold text-primary-600 hover:text-primary-700 transition-colors"
             onClick={handleLinkClick}
           >
             LearnSnap
           </Link>
           
           {/* 데스크톱 네비게이션 */}
-          <nav className="hidden md:flex space-x-6">
+          <nav className="hidden md:flex items-center space-x-8">
             <Link 
               to="/videos" 
-              className={`transition-colors ${
+              className={`font-medium transition-colors ${
                 isActive('/videos') 
-                  ? 'text-blue-600 font-semibold' 
-                  : 'text-gray-700 hover:text-blue-600'
+                  ? 'text-primary-600' 
+                  : 'text-secondary-700 hover:text-primary-600'
               }`}
             >
               비디오
             </Link>
             <Link 
               to="/categories" 
-              className={`transition-colors ${
+              className={`font-medium transition-colors ${
                 isActive('/categories') 
-                  ? 'text-blue-600 font-semibold' 
-                  : 'text-gray-700 hover:text-blue-600'
+                  ? 'text-primary-600' 
+                  : 'text-secondary-700 hover:text-primary-600'
               }`}
             >
               카테고리
             </Link>
             <Link 
               to="/leaderboard" 
-              className={`transition-colors ${
+              className={`font-medium transition-colors ${
                 isActive('/leaderboard') 
-                  ? 'text-blue-600 font-semibold' 
-                  : 'text-gray-700 hover:text-blue-600'
+                  ? 'text-primary-600' 
+                  : 'text-secondary-700 hover:text-primary-600'
               }`}
             >
-              🏆 리더보드
+              리더보드
             </Link>
           </nav>
           
           {/* 데스크톱 인증 버튼 */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-3">
             {isAuthenticated && user ? (
               <>
                 {/* 강사/관리자 전용 메뉴 */}
                 {(user.role === 'INSTRUCTOR' || user.role === 'ADMIN') && (
                   <>
-                    <Link 
-                      to="/instructor/dashboard" 
-                      className={`transition-colors ${
-                        isActive('/instructor/dashboard') 
-                          ? 'text-blue-600 font-semibold' 
-                          : 'text-gray-700 hover:text-blue-600'
-                      }`}
-                    >
-                      📊 대시보드
+                    <Link to="/instructor/dashboard">
+                      <Button variant="ghost" size="sm">
+                        대시보드
+                      </Button>
                     </Link>
-                    <Link 
-                      to="/instructor/upload" 
-                      className={`transition-colors ${
-                        isActive('/instructor/upload') 
-                          ? 'text-blue-600 font-semibold' 
-                          : 'text-gray-700 hover:text-blue-600'
-                      }`}
-                    >
-                      📹 업로드
+                    <Link to="/instructor/upload">
+                      <Button variant="ghost" size="sm">
+                        업로드
+                      </Button>
                     </Link>
                   </>
                 )}
-                <Link 
-                  to="/profile" 
-                  className={`transition-colors ${
-                    isActive('/profile') 
-                      ? 'text-blue-600 font-semibold' 
-                      : 'text-gray-700 hover:text-blue-600'
-                  }`}
-                >
-                  {user.username}님
+                <Link to="/profile">
+                  <Button variant="ghost" size="sm">
+                    프로필
+                  </Button>
                 </Link>
-                <button
+                <Button 
+                  variant="outline" 
+                  size="sm"
                   onClick={handleLogout}
-                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
                 >
                   로그아웃
-                </button>
+                </Button>
               </>
             ) : (
               <>
-                <Link 
-                  to="/login" 
-                  className="text-gray-700 hover:text-blue-600 transition-colors"
-                >
-                  로그인
+                <Link to="/login">
+                  <Button variant="ghost" size="sm">
+                    로그인
+                  </Button>
                 </Link>
-                <Link 
-                  to="/signup" 
-                  className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
-                >
-                  회원가입
+                <Link to="/signup">
+                  <Button variant="primary" size="sm">
+                    회원가입
+                  </Button>
                 </Link>
               </>
             )}
           </div>
-
+          
           {/* 모바일 햄버거 메뉴 버튼 */}
-          <button
+          <button 
+            className="md:hidden p-2 rounded-lg hover:bg-secondary-100 transition-colors"
             onClick={toggleMobileMenu}
-            className="md:hidden p-2 text-gray-700 hover:text-blue-600"
             aria-label="메뉴"
           >
             <svg 
-              className="w-6 h-6" 
+              className="w-6 h-6 text-secondary-700" 
               fill="none" 
               stroke="currentColor" 
               viewBox="0 0 24 24"
@@ -174,18 +159,18 @@ const Header = () => {
             </svg>
           </button>
         </div>
-
+        
         {/* 모바일 메뉴 */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t py-4">
-            <nav className="flex flex-col space-y-3">
+          <div className="md:hidden py-4 border-t border-secondary-200">
+            <nav className="flex flex-col space-y-1">
               <Link 
                 to="/videos" 
                 onClick={handleLinkClick}
-                className={`px-2 py-2 rounded transition-colors ${
+                className={`px-3 py-2.5 rounded-lg font-medium transition-colors ${
                   isActive('/videos') 
-                    ? 'text-blue-600 font-semibold bg-blue-50' 
-                    : 'text-gray-700 hover:bg-gray-100'
+                    ? 'text-primary-600 bg-primary-50' 
+                    : 'text-secondary-700 hover:bg-secondary-50'
                 }`}
               >
                 비디오
@@ -193,10 +178,10 @@ const Header = () => {
               <Link 
                 to="/categories" 
                 onClick={handleLinkClick}
-                className={`px-2 py-2 rounded transition-colors ${
+                className={`px-3 py-2.5 rounded-lg font-medium transition-colors ${
                   isActive('/categories') 
-                    ? 'text-blue-600 font-semibold bg-blue-50' 
-                    : 'text-gray-700 hover:bg-gray-100'
+                    ? 'text-primary-600 bg-primary-50' 
+                    : 'text-secondary-700 hover:bg-secondary-50'
                 }`}
               >
                 카테고리
@@ -204,17 +189,17 @@ const Header = () => {
               <Link 
                 to="/leaderboard" 
                 onClick={handleLinkClick}
-                className={`px-2 py-2 rounded transition-colors ${
+                className={`px-3 py-2.5 rounded-lg font-medium transition-colors ${
                   isActive('/leaderboard') 
-                    ? 'text-blue-600 font-semibold bg-blue-50' 
-                    : 'text-gray-700 hover:bg-gray-100'
+                    ? 'text-primary-600 bg-primary-50' 
+                    : 'text-secondary-700 hover:bg-secondary-50'
                 }`}
               >
-                🏆 리더보드
+                리더보드
               </Link>
               
               {/* 모바일 인증 버튼 */}
-              <div className="border-t pt-3 mt-3">
+              <div className="border-t border-secondary-200 pt-3 mt-3 space-y-1">
                 {isAuthenticated && user ? (
                   <>
                     {/* 강사/관리자 전용 메뉴 */}
@@ -223,41 +208,41 @@ const Header = () => {
                         <Link 
                           to="/instructor/dashboard" 
                           onClick={handleLinkClick}
-                          className={`block px-2 py-2 rounded transition-colors ${
+                          className={`block px-3 py-2.5 rounded-lg font-medium transition-colors ${
                             isActive('/instructor/dashboard') 
-                              ? 'text-blue-600 font-semibold bg-blue-50' 
-                              : 'text-gray-700 hover:bg-gray-100'
+                              ? 'text-primary-600 bg-primary-50' 
+                              : 'text-secondary-700 hover:bg-secondary-50'
                           }`}
                         >
-                          📊 강사 대시보드
+                          강사 대시보드
                         </Link>
                         <Link 
                           to="/instructor/upload" 
                           onClick={handleLinkClick}
-                          className={`block px-2 py-2 rounded transition-colors ${
+                          className={`block px-3 py-2.5 rounded-lg font-medium transition-colors ${
                             isActive('/instructor/upload') 
-                              ? 'text-blue-600 font-semibold bg-blue-50' 
-                              : 'text-gray-700 hover:bg-gray-100'
+                              ? 'text-primary-600 bg-primary-50' 
+                              : 'text-secondary-700 hover:bg-secondary-50'
                           }`}
                         >
-                          📹 비디오 업로드
+                          비디오 업로드
                         </Link>
                       </>
                     )}
                     <Link 
                       to="/profile" 
                       onClick={handleLinkClick}
-                      className={`block px-2 py-2 rounded transition-colors ${
+                      className={`block px-3 py-2.5 rounded-lg font-medium transition-colors ${
                         isActive('/profile') 
-                          ? 'text-blue-600 font-semibold bg-blue-50' 
-                          : 'text-gray-700 hover:bg-gray-100'
+                          ? 'text-primary-600 bg-primary-50' 
+                          : 'text-secondary-700 hover:bg-secondary-50'
                       }`}
                     >
-                      {user.username}님 프로필
+                      프로필
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="w-full mt-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
+                      className="w-full text-left px-3 py-2.5 rounded-lg font-medium text-error-600 hover:bg-error-50 transition-colors"
                     >
                       로그아웃
                     </button>
@@ -267,14 +252,14 @@ const Header = () => {
                     <Link 
                       to="/login" 
                       onClick={handleLinkClick}
-                      className="block px-2 py-2 text-gray-700 hover:bg-gray-100 rounded transition-colors"
+                      className="block px-3 py-2.5 rounded-lg font-medium text-secondary-700 hover:bg-secondary-50 transition-colors"
                     >
                       로그인
                     </Link>
                     <Link 
                       to="/signup" 
                       onClick={handleLinkClick}
-                      className="block mt-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 text-center transition-colors"
+                      className="block px-3 py-2.5 rounded-lg font-medium text-primary-600 hover:bg-primary-50 transition-colors"
                     >
                       회원가입
                     </Link>

@@ -3,6 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { login as loginAPI } from '../../services/authService';
 import useAuthStore from '../../store/authStore';
 import { useToast } from '../../contexts/ToastContext';
+import Button from '../../components/common/Button';
+import Input from '../../components/common/Input';
+import Card from '../../components/common/Card';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -117,76 +120,73 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-md mx-auto">
-        <h1 className="text-3xl font-bold mb-6 text-center">로그인</h1>
+    <div className="min-h-screen bg-secondary-50 flex items-center justify-center px-4 py-12">
+      <div className="max-w-md w-full">
+        {/* 로고 및 타이틀 */}
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-secondary-900 mb-2">
+            LearnSnap
+          </h1>
+          <p className="text-secondary-600">
+            전문 지식을 짧은 영상으로 학습하세요
+          </p>
+        </div>
         
-        <div className="bg-white p-8 rounded-lg shadow-md">
-          <form onSubmit={handleSubmit}>
+        <Card padding="lg" shadow="medium">
+          <h2 className="text-2xl font-bold text-secondary-900 mb-6">
+            로그인
+          </h2>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
             {/* 이메일 */}
-            <div className="mb-4">
-              <label className="block text-gray-700 mb-2">
-                이메일 <span className="text-red-500">*</span>
-              </label>
-              <input 
-                type="email" 
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.email ? 'border-red-500' : 'border-gray-300'
-                }`}
-                placeholder="user@example.com"
-                disabled={isLoading}
-              />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-500">{errors.email}</p>
-              )}
-            </div>
+            <Input
+              label="이메일"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="user@example.com"
+              error={errors.email}
+              required
+              disabled={isLoading}
+            />
             
             {/* 비밀번호 */}
-            <div className="mb-6">
-              <label className="block text-gray-700 mb-2">
-                비밀번호 <span className="text-red-500">*</span>
-              </label>
-              <input 
-                type="password" 
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.password ? 'border-red-500' : 'border-gray-300'
-                }`}
-                placeholder="••••••••"
-                disabled={isLoading}
-              />
-              {errors.password && (
-                <p className="mt-1 text-sm text-red-500">{errors.password}</p>
-              )}
-            </div>
+            <Input
+              label="비밀번호"
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="••••••••"
+              error={errors.password}
+              required
+              disabled={isLoading}
+            />
             
             {/* 제출 버튼 */}
-            <button 
+            <Button
               type="submit"
+              variant="primary"
+              size="lg"
+              fullWidth
               disabled={isLoading}
-              className={`w-full py-2 rounded-lg text-white font-semibold ${
-                isLoading 
-                  ? 'bg-gray-400 cursor-not-allowed' 
-                  : 'bg-blue-500 hover:bg-blue-600'
-              }`}
             >
               {isLoading ? '로그인 중...' : '로그인'}
-            </button>
+            </Button>
           </form>
           
           {/* 회원가입 링크 */}
-          <p className="mt-4 text-center text-gray-600">
+          <p className="mt-6 text-center text-sm text-secondary-600">
             계정이 없으신가요?{' '}
-            <Link to="/signup" className="text-blue-500 hover:underline">
+            <Link 
+              to="/signup" 
+              className="font-semibold text-primary-600 hover:text-primary-700 transition-colors"
+            >
               회원가입
             </Link>
           </p>
-        </div>
+        </Card>
       </div>
     </div>
   );
